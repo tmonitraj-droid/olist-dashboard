@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olist E-Commerce Performance Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1f5f7;--card:#fff;--ink:#14213d;--mut:#5b6b7f;--line:#d9e1e7;--a:#0f766e;--b:#c2410c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1823;--card:#18242f;--ink:#e8eef3;--mut:#9fb0c0;--line:#2a3a48;--a:#2dd4bf;--b:#fb923c}}
+:root[data-theme="dark"]{--bg:#0f1823;--card:#18242f;--ink:#e8eef3;--mut:#9fb0c0;--line:#2a3a48;--a:#2dd4bf;--b:#fb923c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Bricolage Grotesque",system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:28px 18px 48px}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.1;font-weight:800;margin:0 0 8px;max-width:20ch}
+.sub{color:var(--mut);margin:0 0 26px;max-width:60ch}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:26px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.k b{display:block;font-size:26px;font-weight:800}.k span{color:var(--mut);font-size:14px}
+.hero{background:var(--ink);color:var(--bg);border-radius:14px;padding:22px;margin-bottom:26px;display:flex;gap:26px;flex-wrap:wrap;align-items:center}
+.hero .n{font-size:clamp(44px,10vw,72px);font-weight:800;line-height:1}
+.hero .n small{font-size:.35em;font-weight:600;display:block;margin-top:6px;opacity:.8}
+.hero p{margin:0;flex:1 1 260px;max-width:48ch}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:18px}
+h2{font-size:19px;margin:0 0 4px}.cap{color:var(--mut);font-size:14px;margin:0 0 12px}
+svg{width:100%;height:auto;display:block}svg text{fill:var(--mut);font:12px "Bricolage Grotesque",system-ui,sans-serif}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+ul{margin:0;padding-left:20px}li{margin-bottom:6px}
+footer{color:var(--mut);font-size:13px}
+</style></head><body><main>
+<h1>Late deliveries cost Olist more than sales do</h1>
+<p class="sub">Analysis of 98,205 Brazilian e-commerce orders (2016–2018) from the public Olist dataset. Revenue is item price, excluding freight and cancelled orders.</p>
+<div class="kpis">
+<div class="k"><b>R$13.5M</b><span>Revenue</span></div>
+<div class="k"><b>98,205</b><span>Orders</span></div>
+<div class="k"><b>R$137</b><span>Average order value</span></div>
+<div class="k"><b>3.0%</b><span>Customers who reordered</span></div>
+<div class="k"><b>12.1 days</b><span>Average delivery time</span></div>
+<div class="k"><b>4.09</b><span>Average review (of 5)</span></div>
+</div>
+<div class="hero"><div class="n">4.29 → 2.57<small>review score, on time vs late</small></div>
+<p>Only 8.1% of orders arrive after the promised date, yet those orders score 1.7 points lower. With just 3% of customers coming back, every bad delivery is a customer likely lost for good.</p></div>
+<section><h2>Monthly revenue</h2><p class="cap">Revenue (R$ thousands) grew steadily to a November 2017 peak, then plateaued near R$900K a month.</p><div id="c1"></div></section>
+<div class="two">
+<section><h2>Top 8 product categories</h2><p class="cap">Revenue, R$ thousands</p><div id="c2"></div></section>
+<section><h2>Top 8 states</h2><p class="cap">Revenue, R$ thousands</p><div id="c3"></div></section>
+</div>
+<section><h2>Findings and recommendations</h2><ul>
+<li><b>Growth stalled in 2018.</b> Monthly orders sit around 6,000–7,000 since January 2018 after a Black Friday spike of 7,421 in November 2017.</li>
+<li><b>One state dominates.</b> São Paulo alone brings 38% of revenue. Growth in Rio de Janeiro and Minas Gerais is the clearest diversification path.</li>
+<li><b>Spread across categories.</b> No single category passes 10% of revenue, which lowers risk. Health and beauty, watches and gifts, and bed and bath lead.</li>
+<li><b>Fix delivery before marketing.</b> Cutting late deliveries would lift reviews and repeat purchases, the weakest metric at 3%.</li>
+</ul></section>
+<footer>Built with Power Query, a star-schema model and DAX in Power BI; data summarised with Python. Source: Olist Brazilian E-Commerce Public Dataset (Kaggle).</footer>
+</main>
+<script>
+var M=["Jan 17","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan 18","Feb","Mar","Apr","May","Jun","Jul","Aug"];
+var R=[120,245,368,354,503,430,492,568,621,660,1004,742,945,838,981,994,993,863,878,849];
+function line(el,l,v){var W=700,H=280,p=40,mx=1100,x=function(i){return p+i*(W-p-10)/(v.length-1)},y=function(n){return H-30-n/mx*(H-50)},s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Monthly revenue line chart">';
+for(var g=0;g<=1100;g+=275)s+='<line x1="'+p+'" x2="'+W+'" y1="'+y(g)+'" y2="'+y(g)+'" stroke="var(--line)"/><text x="4" y="'+(y(g)+4)+'">'+g+'</text>';
+var pts=v.map(function(n,i){return x(i)+','+y(n)}).join(' ');
+s+='<polyline fill="none" stroke="var(--a)" stroke-width="3" points="'+pts+'"/>';
+v.forEach(function(n,i){if(i%3==0||i==10)s+='<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle">'+l[i]+'</text>'});
+s+='<circle cx="'+x(10)+'" cy="'+y(1004)+'" r="5" fill="var(--b)"/><text x="'+(x(10)-8)+'" y="'+(y(1004)-10)+'" text-anchor="end" style="fill:var(--b);font-weight:600">Nov 2017: 1,004</text></svg>';
+el.innerHTML=s}
+function bars(el,l,v){var W=420,rh=32,H=rh*l.length+6,mx=Math.max.apply(null,v),s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Bar chart">';
+l.forEach(function(t,i){var w=v[i]/mx*(W-190);s+='<text x="0" y="'+(i*rh+20)+'">'+t+'</text><rect x="130" y="'+(i*rh+6)+'" width="'+w+'" height="20" rx="3" fill="var(--a)"/><text x="'+(136+w)+'" y="'+(i*rh+21)+'">'+v[i].toLocaleString()+'</text>'});
+el.innerHTML=s+'</svg>'}
+line(document.getElementById("c1"),M,R);
+bars(document.getElementById("c2"),["Health & beauty","Watches & gifts","Bed, bath, table","Sports & leisure","Computer accessories","Furniture & decor","Housewares","Cool stuff"],[1256,1198,1036,980,904,727,627,621]);
+bars(document.getElementById("c3"),["São Paulo","Rio de Janeiro","Minas Gerais","Rio Grande do Sul","Paraná","Santa Catarina","Bahia","Distrito Federal"],[5165,1812,1574,743,677,519,507,301]);
+</script></body></html>
